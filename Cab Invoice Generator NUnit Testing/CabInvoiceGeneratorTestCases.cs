@@ -12,7 +12,7 @@ namespace Cab_Invoice_Generator_NUnit_Testing
             cabInvoiceGenerator = new CabInvoiceGenarator();
         }
 
-        //given distance in km and time in min should generate fair.
+        // Step1- given distance in km and time in min should generate fair.
         [Test]
         public void Test1()
         {
@@ -24,6 +24,16 @@ namespace Cab_Invoice_Generator_NUnit_Testing
         {
             double fair = cabInvoiceGenerator.CalculateFair(0,0);
             Assert.AreEqual(5, fair);
+        }
+
+        // step2- for multiple ride generate aggregate fair
+        [Test]
+        public void CalAggFairAndMultipleRide()
+        {
+            cabInvoiceGenerator.AddRide(2, 5);
+            cabInvoiceGenerator.AddRide(12, 15);
+            double fair = cabInvoiceGenerator.CalculateAggregate();
+            Assert.AreEqual(160, fair);
         }
     }
 }

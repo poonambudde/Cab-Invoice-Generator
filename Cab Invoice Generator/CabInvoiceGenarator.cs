@@ -29,14 +29,20 @@ namespace Cab_Invoice_Generator
             });
         }
 
-        public double CalculateAggregate()
+        public InvoiceSummary CalculateAggregate()
         {
             double fair = 0;
             foreach(Ride ride in rides)
             {
                 fair += CalculateFair(ride.distance, ride.time);
             }
-            return fair;
+            var summary = new InvoiceSummary()
+            {
+                TotalNoOfRides = rides.Count,
+                AvgFair = fair / rides.Count,
+                TotalFair = fair
+            };
+            return summary;
         }
     }
 }

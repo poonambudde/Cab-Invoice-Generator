@@ -12,7 +12,7 @@ namespace Cab_Invoice_Generator_NUnit_Testing
             cabInvoiceGenerator = new CabInvoiceGenarator();
         }
 
-        // Step1- given distance in km and time in min should generate fair.
+        // given distance in km and time in min should generate fair.
         [Test]
         public void Test1()
         {
@@ -26,14 +26,32 @@ namespace Cab_Invoice_Generator_NUnit_Testing
             Assert.AreEqual(5, fair);
         }
 
-        // step2- for multiple ride generate aggregate fair
+        //Invoice Generator should return total number of rides.
         [Test]
-        public void CalAggFairAndMultipleRide()
+        public void AddMultipleRideToCheckTotaltNoOfRide()
         {
             cabInvoiceGenerator.AddRide(2, 5);
             cabInvoiceGenerator.AddRide(12, 15);
-            double fair = cabInvoiceGenerator.CalculateAggregate();
-            Assert.AreEqual(160, fair);
+            var invoiceSummary = cabInvoiceGenerator.CalculateAggregate();
+            Assert.AreEqual(2, invoiceSummary.TotalNoOfRides);
+        }
+        //Invoice Generator should return total fair.
+        [Test]
+        public void AddMultipleRideToCheckTotalFair()
+        {
+            cabInvoiceGenerator.AddRide(2, 5);
+            cabInvoiceGenerator.AddRide(12, 15);
+            var invoiceSummary = cabInvoiceGenerator.CalculateAggregate();
+            Assert.AreEqual(160, invoiceSummary.TotalFair);
+        }
+        //Invoice Generator should return average fair.
+        [Test]
+        public void AddMultipleRideToCheckAvgFair()
+        {
+            cabInvoiceGenerator.AddRide(2, 5);
+            cabInvoiceGenerator.AddRide(12, 15);
+            var invoiceSummary = cabInvoiceGenerator.CalculateAggregate();
+            Assert.AreEqual(80, invoiceSummary.AvgFair);
         }
     }
 }

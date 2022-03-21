@@ -53,13 +53,15 @@ namespace Cab_Invoice_Generator_NUnit_Testing
             var invoiceSummary = cabInvoiceGenerator.CalculateAggregate("poonam567");
             Assert.AreEqual(80, invoiceSummary.AvgFair);
         }
+
+        // Caculate fare for normal and premium rides.
         [Test]
         public void AddMultipleRideForDifferentUser()
         {
-            cabInvoiceGenerator.AddRide("poonam123", 2, 5);
-            cabInvoiceGenerator.AddRide("poonam123", 12, 15);
+            cabInvoiceGenerator.AddRide(new RideType().Normal,"poonam123", 2, 5);
+            cabInvoiceGenerator.AddRide(new RideType().Normal,"poonam123", 12, 15);
 
-            cabInvoiceGenerator.AddRide("budde123", 12, 15);
+            cabInvoiceGenerator.AddRide(new RideType().Normal,"budde123", 12, 15);
             var invoiceSummary = cabInvoiceGenerator.CalculateAggregate("budde123");
             Assert.AreEqual(135, invoiceSummary.AvgFair);
         }

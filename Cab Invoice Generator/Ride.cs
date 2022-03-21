@@ -8,5 +8,6 @@ namespace Cab_Invoice_Generator
     {
         public double distance { get; set; }
         public int time { get; set; }
+        public RideType type { get; set; }
     }
 }

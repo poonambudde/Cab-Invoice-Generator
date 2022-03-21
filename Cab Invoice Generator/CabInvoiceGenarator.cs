@@ -9,6 +9,7 @@ namespace Cab_Invoice_Generator
         const int COST_PER_KM = 10;
         const int COST_PER_MINUTE = 1;
         const int MINIMUM_FAIR = 5;
+
         List<Ride> rides = new List<Ride>();
         RideRepository RideRepository = new RideRepository();
         public double CalculateFair(double distance, int time)
@@ -21,6 +22,15 @@ namespace Cab_Invoice_Generator
             return MINIMUM_FAIR;
         }
 
+        public double CalculateFair(double distance, int time, RideType type)
+        {
+            var fair = (distance * COST_PER_KM) + (time * COST_PER_MINUTE);
+            if (fair > MINIMUM_FAIR)
+            {
+                return fair;
+            }
+            return MINIMUM_FAIR;
+        }
         public void AddRide(string userId, double distance, int time)
         {
             var userRides = RideRepository.GetRideByUserId(userId);
@@ -44,6 +54,32 @@ namespace Cab_Invoice_Generator
                 RideRepository.AddRideInRideRepo(userId, userRides);
             }
         }
+        public void AddRide(RideType rideType, string userId, double distance, int time)
+        {
+            var userRides = RideRepository.GetRideByUserId(userId);
+            if (userRides == null)
+            {
+                var userride = new List<Ride>();
+                userride.Add(new Ride()
+                {
+                    distance = distance,
+                    time = time,
+                    type = rideType
+
+                });
+                RideRepository.AddRideInRideRepo(userId, userride);
+            }
+            else
+            {
+                userRides.Add(new Ride()
+                {
+                    distance = distance,
+                    time = time,
+                    type = rideType
+                });
+                RideRepository.AddRideInRideRepo(userId, userRides);
+            }
+        }
 
         public InvoiceSummary CalculateAggregate(String userId)
         {
@@ -51,7 +87,7 @@ namespace Cab_Invoice_Generator
             double fair = 0;
             foreach(Ride ride in userRides)
             {
-                fair += CalculateFair(ride.distance, ride.time);
+                fair += CalculateFair(ride.distance, ride.time, ride.type);
             }
             var summary = new InvoiceSummary()
             {

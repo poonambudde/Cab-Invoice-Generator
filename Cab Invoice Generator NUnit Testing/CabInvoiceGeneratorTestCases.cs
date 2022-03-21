@@ -30,28 +30,38 @@ namespace Cab_Invoice_Generator_NUnit_Testing
         [Test]
         public void AddMultipleRideToCheckTotaltNoOfRide()
         {
-            cabInvoiceGenerator.AddRide(2, 5);
-            cabInvoiceGenerator.AddRide(12, 15);
-            var invoiceSummary = cabInvoiceGenerator.CalculateAggregate();
+            cabInvoiceGenerator.AddRide("buddeps", 2, 5);
+            cabInvoiceGenerator.AddRide("buddeps", 12, 15);
+            var invoiceSummary = cabInvoiceGenerator.CalculateAggregate("buddeps");
             Assert.AreEqual(2, invoiceSummary.TotalNoOfRides);
         }
         //Invoice Generator should return total fair.
         [Test]
         public void AddMultipleRideToCheckTotalFair()
         {
-            cabInvoiceGenerator.AddRide(2, 5);
-            cabInvoiceGenerator.AddRide(12, 15);
-            var invoiceSummary = cabInvoiceGenerator.CalculateAggregate();
+            cabInvoiceGenerator.AddRide("poonam", 2, 5);
+            cabInvoiceGenerator.AddRide("poonam", 12, 15);
+            var invoiceSummary = cabInvoiceGenerator.CalculateAggregate("poonam");
             Assert.AreEqual(160, invoiceSummary.TotalFair);
         }
         //Invoice Generator should return average fair.
         [Test]
-        public void AddMultipleRideToCheckAvgFair()
+        public void AddMultipleRideToCheckAvgfair()
         {
-            cabInvoiceGenerator.AddRide(2, 5);
-            cabInvoiceGenerator.AddRide(12, 15);
-            var invoiceSummary = cabInvoiceGenerator.CalculateAggregate();
+            cabInvoiceGenerator.AddRide("poonam567", 2, 5);
+            cabInvoiceGenerator.AddRide("poonam567", 12, 15);
+            var invoiceSummary = cabInvoiceGenerator.CalculateAggregate("poonam567");
             Assert.AreEqual(80, invoiceSummary.AvgFair);
+        }
+        [Test]
+        public void AddMultipleRideForDifferentUser()
+        {
+            cabInvoiceGenerator.AddRide("poonam123", 2, 5);
+            cabInvoiceGenerator.AddRide("poonam123", 12, 15);
+
+            cabInvoiceGenerator.AddRide("budde123", 12, 15);
+            var invoiceSummary = cabInvoiceGenerator.CalculateAggregate("budde123");
+            Assert.AreEqual(135, invoiceSummary.AvgFair);
         }
     }
 }
